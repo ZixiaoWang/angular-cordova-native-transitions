@@ -1,0 +1,25 @@
+{
+  "name": "angular-cordova-native-transitions",
+  "authors": [
+    "Jacky Wang <www.wangzixiao@gmail.com>"
+  ],
+  "dependencies": {
+    "angular":"~1.3.0"
+  },
+  "description": "The mid-layer which sealed Cordova native transitions plugin functions into angular directives and services.",
+  "main": "angular-cordova-native-transitions.min.js",
+  "keywords": [
+    "angular",
+    "cordova",
+    "native-transitions"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ZixiaoWang/angular-cordova-native-transitions",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
