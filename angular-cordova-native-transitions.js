@@ -6,36 +6,36 @@ angular.module('ngNativeTransitions', [])
         slide:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.slide(
                 option,
-                callback(),
-                errorfn()
+                callback,
+                errorfn
             )
         },
         flip:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.flip(
                 option,
-                callback(),
-                errorfn()
+                callback,
+                errorfn
             )
         },
         fade:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.fade(
                 option,
-                callback(),
-                errorfn()
+                callback,
+                errorfn
             )
         },
         drawer:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.drawer(
                 option,
-                callback(),
-                errorfn()
+                callback,
+                errorfn
             )
         },
         curl:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.curl(
                 option,
-                callback(),
-                errorfn()
+                callback,
+                errorfn
             )
         }
     }
