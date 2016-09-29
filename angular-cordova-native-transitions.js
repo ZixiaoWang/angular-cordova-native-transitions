@@ -1,4 +1,63 @@
 'use strict';
+angular.module('nativeTransition', ['ui.router','ngNativeTransitions'])
+.controller('appCtrl', function($scope, $window){
+    var app = {
+        initialize: function() {
+            this.bindEvents();
+        },
+        bindEvents: function() {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        },
+        onDeviceReady: function() {
+            app.receivedEvent('deviceready');
+        },
+        receivedEvent: function(id) {
+            // do nothing.
+        }
+    };
+    app.initialize();
+    $scope.title = 'Native Transitions';
+})
+.controller('slideCtrl', function($scope){ $scope.$parent.title = 'Slide Effect'; $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
+.controller('flipCtrl', function($scope){ $scope.$parent.title = 'Flip Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
+.controller('fadeCtrl', function($scope){ $scope.$parent.title = 'Fade Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
+.controller('drawerCtrl', function($scope, $nativeTransitions, $window){ $window.nt = $nativeTransitions; $scope.$parent.title = 'Drawer Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
+.controller('curlCtrl', function($scope){ $scope.$parent.title = 'Curl Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
+
+.config(function($stateProvider, $urlRouterProvider){
+    $urlRouterProvider.otherwise('/home');
+    $stateProvider
+        .state('home', {
+            url:'/home',
+            templateUrl:'templates/home.html',
+            controller:'appCtrl'
+        })
+        .state('slide', {
+            url:'/slide',
+            templateUrl:'templates/slide.html',
+            controller:'slideCtrl'
+        })
+        .state('flip', {
+            url:'/flip',
+            templateUrl:'templates/flip.html',
+            controller:'flipCtrl'
+        })
+        .state('fade', {
+            url:'/fade',
+            templateUrl:'templates/fade.html',
+            controller:'fadeCtrl'
+        })
+        .state('drawer', {
+            url:'/drawer',
+            templateUrl:'templates/drawer.html',
+            controller:'drawerCtrl'
+        })
+        .state('curl', {
+            url:'/curl',
+            templateUrl:'templates/curl.html',
+            controller:'curlCtrl'
+        });
+})
 
 angular.module('ngNativeTransitions', [])
 .factory('$nativeTransitions', ['$window',function($window){
@@ -65,7 +124,7 @@ angular.module('ngNativeTransitions', [])
                             fixedPixelsBottom:  attr.fixbottom,
                             href:   attr.href
                         };
-                        $nativeTransitions.slide(options, scope.success, scope.error);
+                        $nativeTransitions.slide(options, scope.success(), scope.error());
                         break;
                     case 'flip':
                         var options = {
@@ -76,7 +135,7 @@ angular.module('ngNativeTransitions', [])
                             winphonedelay:  attr.delay,
                             href:   attr.href
                         };
-                        $nativeTransitions.flip(options, scope.success, scope.error);
+                        $nativeTransitions.flip(options, scope.success(), scope.error());
                         break;
                     case 'fade':
                         var options = {
@@ -85,7 +144,7 @@ angular.module('ngNativeTransitions', [])
                             androiddelay:   attr.delay,
                             href:   attr.href
                         };
-                        $nativeTransitions.fade(options, scope.success, scope.error);
+                        $nativeTransitions.fade(options, scope.success(), scope.error());
                         break;
                     case 'drawer':
                         var options = {
@@ -95,7 +154,7 @@ angular.module('ngNativeTransitions', [])
                             iosdelay:   attr.delay,
                             href:   attr.href
                         };
-                        $nativeTransitions.drawer(options, scope.success, scope.error);
+                        $nativeTransitions.drawer(options, scope.success(), scope.error());
                         break;
                     case 'curl':
                         var options = {
@@ -104,7 +163,7 @@ angular.module('ngNativeTransitions', [])
                             iosdelay:   attr.delay,
                             href:       attr.href
                         };
-                        $nativeTransitions.curl(options, scope.success, scope.error);
+                        $nativeTransitions.curl(options, scope.success(), scope.error());
                         break;
                     default:
                         var options = {
@@ -119,7 +178,7 @@ angular.module('ngNativeTransitions', [])
                             fixedPixelsBottom:  0,
                             href:   '#home'
                         };
-                        $nativeTransitions.slide(options, scope.success, scope.error);
+                        $nativeTransitions.slide(options, scope.success(), scope.error());
                 } // end of switch
             }); // end of bind click
         }
