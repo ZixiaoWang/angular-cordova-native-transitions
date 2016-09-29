@@ -90,6 +90,7 @@ angular.module('ngNativeTransitions', [])
                     case 'drawer':
                         var options = {
                             origin:     attr.origin,
+                            action:     attr.action,
                             duration:   attr.duration,
                             iosdelay:   attr.delay,
                             href:   attr.href
