@@ -32,6 +32,14 @@ or, please refer to the description in [here][].
   </script>
 </html>
 ```
+#### Trigger debug mode  
+This works for desktop browser for debugging use.
+```html
+  angular.module('app', ['ui.router', 'ngNativeTransitions'])
+  .config(function('nativeTransitionConfigProvider'){
+    nativeTransitionConfigProvider.setDebug(true);
+  })
+```
 
 #### Use Angular directive
 The default effect is "Slide  
