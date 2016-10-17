@@ -1,67 +1,31 @@
 'use strict';
-angular.module('nativeTransition', ['ui.router','ngNativeTransitions'])
-.controller('appCtrl', function($scope, $window){
-    var app = {
-        initialize: function() {
-            this.bindEvents();
-        },
-        bindEvents: function() {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
-        },
-        onDeviceReady: function() {
-            app.receivedEvent('deviceready');
-        },
-        receivedEvent: function(id) {
-            // do nothing.
-        }
-    };
-    app.initialize();
-    $scope.title = 'Native Transitions';
-})
-.controller('slideCtrl', function($scope){ $scope.$parent.title = 'Slide Effect'; $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
-.controller('flipCtrl', function($scope){ $scope.$parent.title = 'Flip Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
-.controller('fadeCtrl', function($scope){ $scope.$parent.title = 'Fade Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
-.controller('drawerCtrl', function($scope, $nativeTransitions, $window){ $window.nt = $nativeTransitions; $scope.$parent.title = 'Drawer Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
-.controller('curlCtrl', function($scope){ $scope.$parent.title = 'Curl Effect';  $scope.resetTitle = function(){ $scope.$parent.title = 'Native Transitions';}})
-
-.config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise('/home');
-    $stateProvider
-        .state('home', {
-            url:'/home',
-            templateUrl:'templates/home.html',
-            controller:'appCtrl'
-        })
-        .state('slide', {
-            url:'/slide',
-            templateUrl:'templates/slide.html',
-            controller:'slideCtrl'
-        })
-        .state('flip', {
-            url:'/flip',
-            templateUrl:'templates/flip.html',
-            controller:'flipCtrl'
-        })
-        .state('fade', {
-            url:'/fade',
-            templateUrl:'templates/fade.html',
-            controller:'fadeCtrl'
-        })
-        .state('drawer', {
-            url:'/drawer',
-            templateUrl:'templates/drawer.html',
-            controller:'drawerCtrl'
-        })
-        .state('curl', {
-            url:'/curl',
-            templateUrl:'templates/curl.html',
-            controller:'curlCtrl'
-        });
-})
-
 angular.module('ngNativeTransitions', [])
-.factory('$nativeTransitions', ['$window',function($window){
+.provider('nativeTransitionConfig', function nativeTransitionConfigProvider(){
+    this.debug = false;
+    this.setDebug = function(bol){
+        this.debug = !!bol;
+    }
+    this.$get = function(){
+        return { debug: this.debug };
+    }
+})
+.factory('$nativeTransitions', ['$window', 'nativeTransitionConfig', function($window, nativeTransitionConfig){
+    if(typeof $window.plugins === 'undefined' && typeof window.cordova === 'undefined' && nativeTransitionConfig.debug === true){
+        function desktopDebug(_opt, _callback, _error){
+            location.href = _opt.href;
+        }
+        $window.plugins = {
+            nativepagetransitions:{
+                slide:desktopDebug,
+                fade:desktopDebug,
+                flip:desktopDebug,
+                drawer:desktopDebug,
+                curl:desktopDebug
+            }
+        }
+    }
     return {
+        core:window.plugins,
         slide:function(option, callback, errorfn){
             $window.plugins.nativepagetransitions.slide(
                 option,
